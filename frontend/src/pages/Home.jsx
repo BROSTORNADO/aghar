@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import Slider from 'react-slick' // React Slick for image sliders
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import { FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa' // Importing icons
-import 'react-medium-image-zoom/dist/styles.css'
-import Zoom from 'react-medium-image-zoom' // Image zooming library
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Slider from 'react-slick'; // React Slick for image sliders
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa'; // Importing icons
+import 'react-medium-image-zoom/dist/styles.css';
+import Zoom from 'react-medium-image-zoom'; // Image zooming library
 
 const Home = () => {
-  const [posts, setPosts] = useState([])
-  const [currentPage, setCurrentPage] = useState(1) // Current page
-  const [selectedLocation, setSelectedLocation] = useState('') // Store selected location
-  const postsPerPage = 6 // Number of posts per page
+  const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Current page
+  const [selectedLocation, setSelectedLocation] = useState(''); // Store selected location
+  const postsPerPage = 6; // Number of posts per page
 
   const locations = [
     'Dar Naim - دار النعيم',
@@ -37,21 +37,21 @@ const Home = () => {
     'Zaatar - الزعطر',
     'Cinquième - سينكيم',
     'Sixième - سيزيم',
-  ]
+  ];
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const res = await axios.get('/api/posts', {
           params: { location: selectedLocation },
-        })
-        setPosts(res.data)
+        });
+        setPosts(res.data);
       } catch (error) {
-        console.error('Error fetching posts', error)
+        console.error('Error fetching posts', error);
       }
-    }
-    fetchPosts()
-  }, [selectedLocation]) // Refetch posts whenever the location changes
+    };
+    fetchPosts();
+  }, [selectedLocation]); // Refetch posts whenever the location changes
 
   const sliderSettings = {
     dots: true,
@@ -62,20 +62,21 @@ const Home = () => {
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: true,
-  }
+  };
 
   // Calculate total pages
-  const totalPages = Math.ceil(posts.length / postsPerPage)
+  const totalPages = Math.ceil(posts.length / postsPerPage);
 
   // Get posts for the current page
   const currentPosts = posts.slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
-  )
+  );
 
   const handlePageChange = (newPage) => {
-    setCurrentPage(newPage)
-  }
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
@@ -206,7 +207,7 @@ const Home = () => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
